@@ -5,7 +5,7 @@
   gather_facts: no
 
   vars:
-    env_path: "/opt/docker/apps/API/"
+    env_path: "/opt/docker/apps/API"
 
   tasks:
 ##    - name: Créer le dossier si inexistant
