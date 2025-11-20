@@ -1,0 +1,40 @@
+---
+- name: Déployer le fichier .env depuis Semaphore et fusionner les fichiers
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  vars:
+    env_path: "/home/johfanang/testansible"
+
+  tasks:
+    - name: Créer le dossier si inexistant
+      ansible.builtin.file:
+        path: "{{ env_path }}"
+        state: directory
+        owner: johfanang
+        group: johfanang
+        mode: "0755"
+
+    - name: Générer le fichier .env_commune depuis variables base64
+      ansible.builtin.copy:
+        dest: "{{ env_path }}/.env_commune"
+        content: |
+          {{ ENV_BACK | b64decode }}
+        owner: johfanang
+        group: johfanang
+        mode: "0600"
+
+    - name: Fusionner .env_propre et .env_commune en .env
+      ansible.builtin.shell: |
+        cat /lib/.env_propre {{ env_path }}/.env_commune > {{ env_path }}/.env
+      args:
+        executable: /bin/bash
+      register: merge_result
+
+    - name: Vérifier le contenu du fichier fusionné
+      ansible.builtin.shell: cat {{ env_path }}/.env
+      register: env_content
+
+    
+
