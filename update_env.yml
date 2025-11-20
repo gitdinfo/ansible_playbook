@@ -5,15 +5,15 @@
   gather_facts: no
 
   vars:
-    env_path: "/home/johfanang/testansible"
+    env_path: "/opt/docker/apps/API/"
 
   tasks:
     - name: Créer le dossier si inexistant
       ansible.builtin.file:
         path: "{{ env_path }}"
         state: directory
-        owner: johfanang
-        group: johfanang
+        owner: useransible
+        group: useransible
         mode: "0755"
 
     - name: Générer le fichier .env_commune depuis variables base64
@@ -21,19 +21,19 @@
         dest: "{{ env_path }}/.env_commune"
         content: |
           {{ ENV_BACK | b64decode }}
-        owner: johfanang
-        group: johfanang
+        owner: useransible
+        group: useransible
         mode: "0600"
 
     - name: Fusionner .env_propre et .env_commune en .env
       ansible.builtin.shell: |
-        cat /lib/.env_propre {{ env_path }}/.env_commune > {{ env_path }}/.env
+        cat {{ env_path }}/.env_local {{ env_path }}/.env_commune > {{ env_path }}/.env_API
       args:
         executable: /bin/bash
       register: merge_result
 
     - name: Vérifier le contenu du fichier fusionné
-      ansible.builtin.shell: cat {{ env_path }}/.env
+      ansible.builtin.shell: cat {{ env_path }}/.env_API
       register: env_content
 
     
