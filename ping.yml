@@ -1,0 +1,11 @@
+---
+- name: Test de connexion avec ping
+  hosts: all
+  become: yes
+  ignore_errors: no
+  check_mode: no
+  gather_facts: no
+
+  tasks:
+    - name: Vérifier la connexion avec ping
+      ansible.builtin.ping:
