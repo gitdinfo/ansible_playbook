@@ -5,7 +5,7 @@
   gather_facts: no
 
   vars:
-    env_path: "/home/useransible"
+    env_path: "/opt/docker/apps/"
 
   tasks:
     - name: Créer le dossier si inexistant
@@ -27,7 +27,7 @@
 
     - name: Fusionner .env_propre et .env_commune en .env
       ansible.builtin.shell: |
-        cat /opt/.env_local {{ env_path }}/.env_commune > {{ env_path }}/.env_API
+        cat {{ env_path }}/.env_local {{ env_path }}/.env_commune > {{ env_path }}/.env_API
       args:
         executable: /bin/bash
       register: merge_result
