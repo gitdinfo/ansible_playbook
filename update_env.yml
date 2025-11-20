@@ -8,13 +8,13 @@
     env_path: "/opt/docker/apps/API/"
 
   tasks:
-    - name: Créer le dossier si inexistant
-      ansible.builtin.file:
-        path: "{{ env_path }}"
-        state: directory
-        owner: useransible
-        group: useransible
-        mode: "0755"
+##    - name: Créer le dossier si inexistant
+##      ansible.builtin.file:
+##        path: "{{ env_path }}"
+##        state: directory
+##        owner: useransible
+##        group: useransible
+##        mode: "0755"
 
     - name: Générer le fichier .env_commune depuis variables base64
       ansible.builtin.copy:
