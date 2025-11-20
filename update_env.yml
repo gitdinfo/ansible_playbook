@@ -8,13 +8,13 @@
     env_path: "/opt/docker/apps/API"
 
   tasks:
-##    - name: Créer le dossier si inexistant
-##      ansible.builtin.file:
-##        path: "{{ env_path }}"
-##        state: directory
-##        owner: useransible
-##        group: useransible
-##        mode: "0755"
+    - name: Créer le dossier si inexistant
+      ansible.builtin.file:
+        path: "{{ env_path }}"
+        state: directory
+        owner: useransible
+        group: useransible
+        mode: "0755"
 
     - name: Générer le fichier .env_commune depuis variables base64
       ansible.builtin.copy:
@@ -27,7 +27,7 @@
 
     - name: Fusionner .env_propre et .env_commune en .env
       ansible.builtin.shell: |
-        cat {{ env_path }}/.env_local {{ env_path }}/.env_commune > {{ env_path }}/.env_API
+        cat /opt/.env_local {{ env_path }}/.env_commune > {{ env_path }}/.env_API
       args:
         executable: /bin/bash
       register: merge_result
